@@ -38,8 +38,7 @@ unsigned long lastButtonTime = 0;
 unsigned long lastUpdateTime = 0;
 
 // --- WiFi Configuration ---
-#define WIFI_SSID "am"
-#define WIFI_PASSWORD "0803536035"
+#define WIFI_SSID "Wi-Fi.HK via HKU"
 
 // --- Display Parameters ---
 #define SCREEN_WIDTH 480
@@ -50,13 +49,16 @@ unsigned long lastUpdateTime = 0;
 void displayText(const char *text, int textSize, int x, int y);
 void IRAM_ATTR isrButton();
 
-void displayText(const char *text, int textSize = 5, int x = 0, int y = 0)
+void displayText(const char *text, int textSize = 4, int x = 0, int y = 0)
 {
 
   // screen.fillScreen(TFT_BLACK);           // clear screen with black background
   tft.fillRect(210, 0, SCREEN_WIDTH - 210, SCREEN_HEIGHT, TFT_BLACK);
   tft.setTextColor(TFT_WHITE, TFT_BLACK); // set text color
-  tft.drawString(text, x, y, textSize);   // display text
+  tft.setTextSize(textSize);
+  tft.setCursor(x,y);
+  tft.print(text);   // display text
+  tft.setCursor(0,0);
 }
 
 // Button ISR
@@ -294,12 +296,12 @@ void setup()
   tft.fillScreen(TFT_BLACK);
 
   //  WiFi Setup
-  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  WiFi.begin(WIFI_SSID);
 
   while (WiFi.status() != WL_CONNECTED)
   {
     Serial.println("Connecting to WiFi...");
-    displayText("Connecting to WiFi...", 4, 150, SCREEN_HEIGHT / 2);
+    displayText("Connecting to WiFi...", 3, 50, SCREEN_HEIGHT / 2);
     delay(500);
   }
 

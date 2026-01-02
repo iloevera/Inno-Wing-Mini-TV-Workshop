@@ -7,13 +7,22 @@ from PIL import Image
 current_dir = os.path.dirname(os.path.abspath(__file__))
 path_dir_icons = os.path.join(current_dir, "icons")
 os.makedirs(path_dir_icons, exist_ok=True)
-path_icon_header = os.path.join(current_dir, "icons.h")
+path_icon_header = os.path.join(current_dir, "Icons.h")
 
 # --- To be customized ---
 gif_width = 100
 gif_height = 100
 icon_name = "ghost"
 # ------------------------
+
+def define_struct():
+    struct_content = """typedef struct {
+    uint16_t *frames;
+    uint16_t width;
+    uint16_t height;
+    uint16_t count;
+} IconSequence;"""
+    return struct_content
 
 def calc_avg_color_of_gif(gif: Image):
     img = gif.convert("RGBA")
@@ -42,13 +51,18 @@ def generate_icon_array(filename: str):
         raise Exception("Icon file does not exist!")
     
     bitmaps_content = f"static const uint16_t PROGMEM icon_{icon_name.replace('.','_')}_bitmaps[] = {{ "
-    
+
+    with Image.open(path_icon) as img:
+        if not hasattr(img, 'n_frames'):
+            raise Exception("Frame count not defined") 
+        gif_frames = img.n_frames
+
     with open(path_icon, "rb") as f:
         gif = Image.open(f)
         avg_r, avg_g, avg_b = [round(o * .4) for o in calc_avg_color_of_gif(gif)]
         
         for frame_number in range(gif.n_frames):
-            if frame_number >= 4:
+            if frame_number >= gif_frames:
                 break
             gif.seek(frame_number)
             img = gif.convert("RGBA").resize((gif_width, gif_height), Image.NEAREST)
@@ -81,13 +95,15 @@ def generate_icon_array(filename: str):
         
     bitmaps_content += "};"
     sequence_content = f"static const IconSequence PROGMEM icon_{icon_name.replace('.','_')} = {{ (uint16_t *) icon_{icon_name.replace('.','_')}_bitmaps, {gif_width}, {gif_height}, {gif.n_frames} }};"
+    struct_content = define_struct()
 
     # write to header file
-    with open(path_icon_header, "a") as header_file:
+    with open(path_icon_header, "w") as header_file:
+        header_file.write("#include <cstdint>")
+        header_file.write("\n" + struct_content + "\n")
         header_file.write("\n" + bitmaps_content + "\n")
         header_file.write(sequence_content + "\n")
         header_file.write("\n")
             
-
 if __name__ == "__main__":
     generate_icon_array(f"{icon_name}.gif")

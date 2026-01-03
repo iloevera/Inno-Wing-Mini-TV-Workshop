@@ -75,10 +75,12 @@ def generate_icon_array(filename: str):
     sequence_content = f"static const IconSequence PROGMEM icon_{icon_name.replace('.','_')} = {{ (uint16_t *) icon_{icon_name.replace('.','_')}_bitmaps, {gif_width}, {gif_height}, {gif.n_frames} }};"
     struct_content = define_struct()
 
-    # write to header file
-    with open(path_icon_header, "w") as header_file:
-        header_file.write("#include <cstdint>")
-        header_file.write("\n" + struct_content + "\n")
+    # create or append to Icons header file
+    if not os.path.exists(path_icon_header):
+        with open(path_icon_header, "w") as header_file:
+            header_file.write("#include <cstdint>")
+            header_file.write("\n" + struct_content + "\n")
+    with open(path_icon_header, "a") as header_file:
         header_file.write("\n" + bitmaps_content + "\n")
         header_file.write(sequence_content + "\n")
         header_file.write("\n")

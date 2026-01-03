@@ -10,9 +10,9 @@ os.makedirs(path_dir_icons, exist_ok=True)
 path_icon_header = os.path.join(current_dir, "Icons.h")
 
 # --- To be customized ---
-gif_width = 100
-gif_height = 100
-icon_name = "ghost"
+gif_width = 8
+gif_height = 8
+icon_name = "mario"
 # ------------------------
 
 def define_struct():
@@ -23,26 +23,6 @@ def define_struct():
     uint16_t count;
 } IconSequence;"""
     return struct_content
-
-def calc_avg_color_of_gif(gif: Image):
-    img = gif.convert("RGBA")
-    avg_r, avg_g, avg_b = 0, 0, 0
-    w, h = img.size
-    pixel_cnt = 0
-    for y in range(h):
-        for x in range(w):
-            r, g, b, a = img.getpixel((x, y))
-            if a <= 0:
-                continue
-            pixel_cnt += 1
-            avg_r += r
-            avg_g += g
-            avg_b += b
-            
-    avg_r /= pixel_cnt
-    avg_g /= pixel_cnt
-    avg_b /= pixel_cnt
-    return avg_r, avg_g, avg_b
 
 def generate_icon_array(filename: str):
     path_icon = os.path.join(path_dir_icons, filename)
@@ -59,7 +39,6 @@ def generate_icon_array(filename: str):
 
     with open(path_icon, "rb") as f:
         gif = Image.open(f)
-        avg_r, avg_g, avg_b = [round(o * .4) for o in calc_avg_color_of_gif(gif)]
         
         for frame_number in range(gif.n_frames):
             if frame_number >= gif_frames:
@@ -74,7 +53,6 @@ def generate_icon_array(filename: str):
                     r, g, b, a = img.getpixel((x, y))
                     
                     if a <= 0:
-                        # r, g, b = avg_r, avg_g, avg_b
                         r, g, b = 0, 0, 0
                     
                     # Convert to rgb565

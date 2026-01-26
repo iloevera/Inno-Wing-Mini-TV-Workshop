@@ -1,1 +1,1 @@
-![](https://github.com/iloevera/Inno-Wing-Mini-TV-Workshop/tree/main/Images/promo_poster.webp)
+![](https://github.com/iloevera/Inno-Wing-Mini-TV-Workshop/tree/main/Images/promo_poster.png)

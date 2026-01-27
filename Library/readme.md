@@ -1,5 +1,6 @@
 Using TFT_eSPI library on Arduino 
 (https://github.com/Bodmer/TFT_eSPI)  
+
 Pull Pin 25 to HIGH to light screen, PWM Pin 25 for 
 brightness control  
 Once Power Switch is implemented set Pin 5 to INPUT_PULLDOWN, 

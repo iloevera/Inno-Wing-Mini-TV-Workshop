@@ -6,5 +6,6 @@ https://github.com/ZhifangL/Mini_TV_UI_v2
 TO DO: 
 - Introduction to project
 - Explain what each folder does
+- Write out the hardware we are using
 
-![](https://github.com/iloevera/Inno-Wing-Mini-TV-Workshop/blob/main/Images/promo_poster.png)
+![](https://github.com/iloevera/Inno-Wing-Mini-TV-Workshop/blob/main/.images/promo_poster.png)

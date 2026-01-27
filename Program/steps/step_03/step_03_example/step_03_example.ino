@@ -15,11 +15,12 @@
 #include <HTTPClient.h>  // HTTP requests
 #include <ArduinoJson.h> // JSON parsing
 
+// --- TFT Configuration ---
 TFT_eSPI tft = TFT_eSPI();
+#define TFT_LED 25
 
 // --- WiFi Configuration ---
-const char *WIFI_SSID = "am";
-const char *WIFI_PASSWORD = "0803536035";
+#define WIFI_SSID "Wi-Fi.HK via HKU"
 
 // --- Display Parameters ---
 #define SCREEN_WIDTH 480
@@ -35,12 +36,14 @@ void setup()
 {
   //  Screen Setup
   tft.init();
+  pinMode(TFT_LED, OUTPUT);
+  digitalWrite(TFT_LED, HIGH); // turn on LED
   tft.setRotation(1); // Landscape
   Serial.begin(115200);
   tft.fillScreen(TFT_BLACK);
 
   //  WiFi Setup
-  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  WiFi.begin(WIFI_SSID);
 
   while (WiFi.status() != WL_CONNECTED)
   {

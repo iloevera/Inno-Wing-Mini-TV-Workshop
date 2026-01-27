@@ -25,8 +25,7 @@ TFT_eSPI tft = TFT_eSPI();
 #define ROTARY_PINSW 13
 
 // --- Wi-Fi credentials ---
-const char* ssid = "am";
-const char* password = "0803536035";
+#define WIFI_SSID "Wi-Fi.HK via HKU"
 
 // --- API endpoint (for weather data request) ---
 const char* serverName = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?lang=en&dataType=rhrread";
@@ -65,7 +64,7 @@ void IRAM_ATTR isrButton() {
 
 // WiFi + API
 void connectWiFi() {
-  WiFi.begin(ssid, password);
+  WiFi.begin(WIFI_SSID);
   Serial.print("Connecting to WiFi");
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);

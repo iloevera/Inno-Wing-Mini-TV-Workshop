@@ -20,7 +20,6 @@ TFT_eSPI tft = TFT_eSPI();
 // --- Display Parameters ---
 #define SCREEN_WIDTH 480
 #define SCREEN_HEIGHT 320
-#define GMT_OFFSET 8
 
 // --- Icon Display (Customized) ---
 const IconSequence *icon = &icon_ghost;

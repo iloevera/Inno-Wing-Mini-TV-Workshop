@@ -11,7 +11,9 @@
 #include <TFT_eSPI.h> // Drawing text, images, and shapes on the TFT display
 #include <SPI.h>      // Serial Data Protocol
 
+// --- TFT Configuration ---
 TFT_eSPI tft = TFT_eSPI();
+#define TFT_LED 25
 
 // --- Display Parameters ---
 #define SCREEN_WIDTH 480
@@ -32,6 +34,8 @@ void setup()
 {
   //  Screen Setup
   tft.init();
+  pinMode(TFT_LED, OUTPUT);
+  digitalWrite(TFT_LED, HIGH); // turn on LED
   tft.setRotation(1); // Landscape
   Serial.begin(115200);
   tft.fillScreen(TFT_BLACK);

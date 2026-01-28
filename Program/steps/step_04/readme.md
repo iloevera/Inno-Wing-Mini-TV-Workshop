@@ -1,7 +1,9 @@
 This step will teach you to read inputs from your 
-rotary encoder. Due to problems with the hardware connection, 
+rotary encoder.  
+
+<b>Due to problems with the hardware connection, 
 please only connect the rotary encoder after your code is 
-running. The same applies if you are connecting a button. We 
+running.</b> The same applies if you are connecting a button. We 
 are sorry for this inconvenience.
 
 Furthermore, due to limitations of the ESP32, only one power 

@@ -25,7 +25,7 @@ TFT_eSPI tft = TFT_eSPI();
 #define SCALE 40
 
 // --- Icon Display (Customized) ---
-const IconSequence *icon = &icon_mario;
+const IconSequence *icon = &mario;
 
 // --- Function Declaration ---
 void displayText(const char *text, int textSize, int x, int y);

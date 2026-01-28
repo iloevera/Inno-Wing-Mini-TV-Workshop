@@ -1,2 +1,3 @@
-DON'T WRITE THE README FOR STEP 2 YET, I AM MIGRATING 
-THE PYTHON FILE TO GOOGLE COLAB
+See Google Colab file (https://colab.research.google.com/drive/1M2ghhb-EPsKnnBAMrDEIjULArmjGbAZA?usp=sharing)  
+
+OK!

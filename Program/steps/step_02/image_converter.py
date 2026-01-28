@@ -15,15 +15,6 @@ gif_height = 8
 icon_name = "mario"
 # ------------------------
 
-def define_struct():
-    struct_content = """typedef struct {
-    uint16_t *frames;
-    uint16_t width;
-    uint16_t height;
-    uint16_t count;
-} IconSequence;"""
-    return struct_content
-
 def generate_icon_array(filename: str):
     path_icon = os.path.join(path_dir_icons, filename)
     
@@ -73,13 +64,11 @@ def generate_icon_array(filename: str):
         
     bitmaps_content += "};"
     sequence_content = f"static const IconSequence PROGMEM icon_{icon_name.replace('.','_')} = {{ (uint16_t *) icon_{icon_name.replace('.','_')}_bitmaps, {gif_width}, {gif_height}, {gif.n_frames} }};"
-    struct_content = define_struct()
 
     # create or append to Icons header file
     if not os.path.exists(path_icon_header):
         with open(path_icon_header, "w") as header_file:
-            header_file.write("#include <cstdint>")
-            header_file.write("\n" + struct_content + "\n")
+            header_file.write(f"#include \"Common_types.h\"")
     with open(path_icon_header, "a") as header_file:
         header_file.write("\n" + bitmaps_content + "\n")
         header_file.write(sequence_content + "\n")

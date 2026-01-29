@@ -1,16 +1,8 @@
-/**
- * @file    step_02_example.ino
- * @brief   Generating GIF icon pixels + display on the screen
- * @author  Aom, Ilo
- * @date    2025-09-12
- * @version 1.0
- */
-
 #include <TFT_eSPI.h> // Drawing text, images, and shapes on the TFT display
 #include <SPI.h>      // Serial Data Protocol
 
-#include "mario.h"
 #include "Common_types.h"
+// #include "name_of_your_file.h"
 
 // --- TFT Configuration ---
 TFT_eSPI tft = TFT_eSPI();
@@ -21,7 +13,7 @@ TFT_eSPI tft = TFT_eSPI();
 #define SCREEN_HEIGHT 320
 
 // --- Icon Display (Customized) ---
-const IconSequence *icon = &mario;
+// const IconSequence *icon = &name_of_your_icon;
 
 // --- Function Declaration ---
 void displayText(const char *text, int textSize, int x, int y);
@@ -37,13 +29,7 @@ void displayText(const char *text, int textSize = 5, int x = 0, int y = 0)
 
 void drawBitmapGif(int16_t x, int16_t y, const uint16_t *bitmap, int16_t w, int16_t h, uint16_t frameCount)
 {
-  uint32_t offset = 0;
-  for (uint16_t frameId = 0; frameId < frameCount; frameId++)
-  {
-    offset = frameId * w * h;
-    tft.pushImage(x, y, w, h, bitmap + offset);
-    delay(500); // Delay between frames
-  }
+ // Your code here
 }
 
 void setup()
@@ -59,8 +45,6 @@ void setup()
   delay(1000);
 }
 
-void loop()
-{
-  // tft.fillScreen(TFT_BLACK);
-  drawBitmapGif((SCREEN_WIDTH - icon->width) / 2, (SCREEN_HEIGHT - icon->height) / 2, icon->frames, icon->width, icon->height, icon->count);
+void loop() {
+  // Your code here
 }

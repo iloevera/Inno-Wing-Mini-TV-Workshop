@@ -16,3 +16,9 @@ be detectable otherwise.
 <b>Setup</b>  
 Download the ESP32Encoder library via library manager
 ---
+How to read from a button:
+https://docs.arduino.cc/built-in-examples/digital/Button/
+
+Rotary Encoder Repo:
+https://github.com/madhephaestus/ESP32Encoder/tree/master
+

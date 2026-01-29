@@ -1,5 +1,5 @@
 /**
- * @file    mini_tv_master.ino
+ * @file    step_01_example.ino
  * @brief   Display custom text on the screen
  * @author  Aom, Ilo
  * @date    2025-09-12

@@ -1,5 +1,5 @@
 /**
- * @file    step_03_example.ino
+ * @file    step_03.ino
  * @brief   Connecting to WiFi + Make API Calls (showing temperature and humidity)
  * @author  Aom, Ilo
  * @date    2025-09-12
@@ -57,7 +57,6 @@ void setup()
 void loop()
 {
   // Fetch and display weather data
-  fetchWeatherData();
 }
 
 void displayText(const char *text, int textSize = 1, int x = 0, int y = 0)
@@ -67,7 +66,7 @@ void displayText(const char *text, int textSize = 1, int x = 0, int y = 0)
   tft.drawString(text, x, y, textSize);   // display text
 }
 
-void APIGetRequest(const char *url, DynamicJsonDocument &doc)
+void APIGetRequest(const char *url, JsonDocument &doc)
 {
   HTTPClient http;
   http.begin(url);
@@ -75,18 +74,18 @@ void APIGetRequest(const char *url, DynamicJsonDocument &doc)
 
   if (httpResponseCode != HTTP_CODE_OK)
   {
-    displayText("Error Calling API!", 4, 50, 50);
+    Serial.println("Error Calling API!");
     delay(5000);
     return;
   }
 
   String payload = http.getString();
   deserializeJson(doc, payload); // Parse the payload into a JSON document
+  http.end();
 }
 
-void fetchWeatherData()
+void fetchWeatherData(int temperature, int humidity)
 {
-  DynamicJsonDocument doc(8192);
   Serial.println("Fetching weather...");
   const char *weatherAPI = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=rhrread";
 
@@ -95,16 +94,5 @@ void fetchWeatherData()
   int temperature = doc["temperature"]["data"][0]["value"].as<int>();
   int humidity = doc["humidity"]["data"][0]["value"].as<int>();
 
-  char msg[16];
-  snprintf(msg, sizeof(msg), "%d c %dp", temperature, humidity);
-  Serial.print("Temperature: ");
-  Serial.print(temperature);
-  Serial.print(" Humidity: ");
-  Serial.println(humidity);
-
-  int textWidth = tft.textWidth(msg, FONT_SIZE);
-  int textHeight = tft.fontHeight(FONT_SIZE);
-  
-  displayText(msg, FONT_SIZE, ( SCREEN_WIDTH - textWidth ) / 2 , ( SCREEN_HEIGHT - textHeight ) / 2);
-  delay(10000);
+  delay(5000);
 }

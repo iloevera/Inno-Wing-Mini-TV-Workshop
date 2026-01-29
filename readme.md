@@ -7,6 +7,5 @@ TO DO:
 - Introduction to project
 - Explain what each folder does
 - Write out the hardware we are using
-- Prune through comments, remove references to last workshop
 
 ![](https://github.com/iloevera/Inno-Wing-Mini-TV-Workshop/blob/main/.images/promo_poster.png)

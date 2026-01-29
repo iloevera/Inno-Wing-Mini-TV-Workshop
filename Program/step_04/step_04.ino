@@ -72,27 +72,12 @@ void setup()
   attachInterrupt(digitalPinToInterrupt(BUTTON), buttonISR, CHANGE);
   currentButtonState = bool(digitalRead(BUTTON));
 
-  Serial.println("Encoder Start = " + String(encoderCount));
   displayText("Screen Start!", 4, 100, 100);
 
   delay(2000);
 }
 
 void loop() {
-    if (encoderChanged) {
-      Serial.println("Encoder count = " + String(encoderCount));
-      tft.fillScreen(TFT_BLACK);
-      displayText(("Encoder count = " + String(encoderCount)).c_str(), 4, 100, 100);
-      encoderChanged = false; // Reset flag
-    }
-    
-    if (buttonPressed) {
-      Serial.println(currentButtonState ? "Button on" : "Button off");
-      tft.fillScreen(TFT_BLACK);
-      if (currentButtonState) {buttonMsg = "Button ON";}
-      else {buttonMsg = "Button OFF";}
-      displayText(buttonMsg, 4, 100, 100);
-      buttonPressed = false;
-    }
-    delay(10);
+
+    delay(1000);
 }

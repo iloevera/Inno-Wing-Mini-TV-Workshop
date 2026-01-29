@@ -28,3 +28,25 @@ Lastly, run an example program from this Github Repo. We
 recommend using Program > steps > step_01 > step_01_example.
 
 If the screen lights up, you're good to go!
+
+---
+<b>Hardware Connection Details: </b>  
+
+Pull Pin 25 to HIGH to light screen, PWM Pin 25 for
+brightness control  
+Once Power Switch is implemented set Pin 5 to INPUT_PULLDOWN,
+if LOW then enter sleep
+
+<b>Pin Config</b>  
+TFT Screen:  
+#define TFT_MISO 19  // Unused  
+#define TFT_MOSI 23  
+#define TFT_SCLK 18  
+#define TFT_CS   15  // Chip select control pin  
+#define TFT_DC    2  // Data Command control pin  
+#define TFT_RST   4  // Reset pin (could connect to RST pin
+
+<b>Rotary Encoder</b>  
+#define SW       13  // Button function  
+#define DT       12  
+#define CLK      14  

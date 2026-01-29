@@ -1,5 +1,5 @@
 /**
- * @file    mini_tv_master.ino
+ * @file    step_04_example2.ino
  * @brief   Switch pages between temperature and humidity
  * @author  Ilo
  * @date    2025-09-12

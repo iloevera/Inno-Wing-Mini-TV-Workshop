@@ -1,12 +1,10 @@
 /**
  * @file    mini_tv_master.ino
- * @brief   Check if screen and rotary encoder are working
+ * @brief   Complete mini tv code
  * @author  Aom, Ilo
  * @date    2025-09-12
  * @version 1.0
  */
-
-// Required Libraries: Adafruit GFX, Adafruit ST7735, TFT, Arduino JSON, ESP32Encoder
 
 #include <TFT_eSPI.h> // Drawing text, images, and shapes on the TFT display
 #include <SPI.h>      // Serial Data Protocol

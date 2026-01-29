@@ -11,7 +11,7 @@
 #include <TFT_eSPI.h> // Drawing text, images, and shapes on the TFT display
 #include <SPI.h>      // Serial Data Protocol
 
-#include "Icons.h"
+#include "mario.h"
 #include "Common_types.h"
 
 // --- TFT Configuration ---
@@ -21,8 +21,6 @@ TFT_eSPI tft = TFT_eSPI();
 // --- Display Parameters ---
 #define SCREEN_WIDTH 480
 #define SCREEN_HEIGHT 320
-#define GMT_OFFSET 8
-#define SCALE 40
 
 // --- Icon Display (Customized) ---
 const IconSequence *icon = &mario;
@@ -33,29 +31,10 @@ void drawBitmapGif(int16_t x, int16_t y, const uint16_t *bitmap, int16_t w, int1
 
 void displayText(const char *text, int textSize = 5, int x = 0, int y = 0)
 {
-
   // screen.fillScreen(TFT_BLACK);           // clear screen with black background
   tft.fillRect(210, 0, SCREEN_WIDTH - 210, SCREEN_HEIGHT, TFT_BLACK);
   tft.setTextColor(TFT_WHITE, TFT_BLACK); // set text color
   tft.drawString(text, x, y, textSize);   // display text
-}
-
-// Implementation as single row in frame buffer
-void drawScaledBitmap(int16_t x, int16_t y, int16_t w, int16_t h, const uint16_t *bitmap){
-  uint16_t* scaledBitmap = (uint16_t*)malloc(w * SCALE * sizeof(uint16_t));
-    for (int sy = 0; sy < h; sy++) {
-      for (int sx = 0; sx < w; sx++) {
-        uint16_t color = pgm_read_word(&bitmap[sy * w + sx]);
-            for (int px = 0; px < SCALE; px++) {
-              scaledBitmap[sx * SCALE + px] = color;
-            }
-        } 
-        // Draw this scaled row SCALE times (vertical scaling)
-        for (int py = 0; py < SCALE; py++) {
-            tft.pushImage(x, y + (sy * SCALE + py), w * SCALE, 1, scaledBitmap);
-        }
-    }
-  free(scaledBitmap);
 }
 
 void drawBitmapGif(int16_t x, int16_t y, const uint16_t *bitmap, int16_t w, int16_t h, uint16_t frameCount)
@@ -64,17 +43,16 @@ void drawBitmapGif(int16_t x, int16_t y, const uint16_t *bitmap, int16_t w, int1
   for (uint16_t frameId = 0; frameId < frameCount; frameId++)
   {
     offset = frameId * w * h;
-    // tft.pushImage(x, y, w, h, bitmap + offset);
-    drawScaledBitmap(0, 0, w, h, bitmap + offset);
-    // draw2xBitmap(0, 0, w, h, bitmap+offset);
-    delay(42); // Delay between frames
+    tft.pushImage(x, y, w, h, bitmap + offset);
+    delay(500); // Delay between frames
   }
 }
+
 void setup()
 {
   //  Screen Setup
   tft.init();
-  pinMode(TFT_LED, OUTPUT);  
+  pinMode(TFT_LED, OUTPUT);
   digitalWrite(TFT_LED, HIGH); // turn on LED
   tft.setRotation(1); // Landscape
   Serial.begin(115200);

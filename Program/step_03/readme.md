@@ -5,7 +5,9 @@ make API calls
 
 ---
 <b>Setup</b>  
+
 Download the ArduinoJson library via library manager
+
 ---
 
 For this step, you will need to call the fetchWeatherData() 

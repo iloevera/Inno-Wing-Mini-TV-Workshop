@@ -14,7 +14,9 @@ be detectable otherwise.
 
 ---
 <b>Setup</b>  
+
 Download the ESP32Encoder library via library manager
+
 ---
 
 The rotary encoder works via two dials, DT (data) and CLK (clock). 

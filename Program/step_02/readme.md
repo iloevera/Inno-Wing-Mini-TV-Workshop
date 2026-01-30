@@ -4,8 +4,10 @@ For this step, we are going to be drawing GIFs to our screen.
 
 ---
 <b>Setup</b>  
+
 Download the Common_types.h file from this step and put it 
 in the same folder as your code
+
 ---
 
 To display a GIF, we will be drawing out different frames of 

@@ -1,3 +1,5 @@
+<h1> Step 3: Display Text </h1>  
+
 This step will teach you how to connect to WiFi and 
 make API calls
 
@@ -5,6 +7,13 @@ make API calls
 <b>Setup</b>  
 Download the ArduinoJson library via library manager
 ---
+
+For this step, you will need to call the fetchWeatherData() 
+function in your void loop(), and complete the fetchWeatherData() 
+function to display its contents on your screen.  
+
+We will be calling the HKObservatory API to display data about 
+the current weather. For more information, see:  
 
 HKObservatory API Key:
 https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=rhrread&lang=en

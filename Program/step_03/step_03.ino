@@ -56,7 +56,7 @@ void setup()
 
 void loop()
 {
-  // Fetch and display weather data
+  // Call fetchWeatherData() here
 }
 
 void displayText(const char *text, int textSize = 1, int x = 0, int y = 0)
@@ -94,5 +94,6 @@ void fetchWeatherData(int temperature, int humidity)
   int temperature = doc["temperature"]["data"][0]["value"].as<int>();
   int humidity = doc["humidity"]["data"][0]["value"].as<int>();
 
+  // Complete code here
   delay(5000);
 }

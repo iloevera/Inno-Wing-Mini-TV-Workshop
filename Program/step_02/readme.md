@@ -1,8 +1,12 @@
 <h1> Step 2: Display Text </h1>  
 
 For this step, we are going to be drawing GIFs to our screen.  
-Please download the Common_types.h file and include it in 
-your folder when doing this step.
+
+---
+<b>Setup</b>  
+Download the Common_types.h file from this step and put it 
+in the same folder as your code
+---
 
 To display a GIF, we will be drawing out different frames of 
 a static image every time you loop the screen. You will first 

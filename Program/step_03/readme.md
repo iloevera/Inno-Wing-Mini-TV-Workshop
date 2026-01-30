@@ -1,4 +1,4 @@
-<h1> Step 3: Display Text </h1>  
+<h1> Step 3: Call Weather API </h1>  
 
 This step will teach you how to connect to WiFi and 
 make API calls

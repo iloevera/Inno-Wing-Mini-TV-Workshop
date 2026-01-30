@@ -1,4 +1,4 @@
-<h1> Step 2: Display Text </h1>  
+<h1> Step 2: Display GIF </h1>  
 
 For this step, we are going to be drawing GIFs to our screen.  
 

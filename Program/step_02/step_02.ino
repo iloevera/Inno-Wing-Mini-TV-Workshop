@@ -29,7 +29,13 @@ void displayText(const char *text, int textSize = 5, int x = 0, int y = 0)
 
 void drawBitmapGif(int16_t x, int16_t y, const uint16_t *bitmap, int16_t w, int16_t h, uint16_t frameCount)
 {
- // Your code here
+  uint32_t offset = 0;
+  for (uint16_t frameId = 0; frameId < frameCount; frameId++)
+  {
+    offset = frameId * w * h;
+    tft.pushImage(x, y, w, h, bitmap + offset);
+    delay(500); // Delay between frames
+  }
 }
 
 void setup()

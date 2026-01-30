@@ -1,15 +1,26 @@
-Common_types.h needs to be downloaded to the folder of this 
-step as it contains the struct the GIFs are stored in.  
+<h1> Step 2: Display Text </h1>  
 
-See Google Colab file (https://colab.research.google.com/drive/1M2ghhb-EPsKnnBAMrDEIjULArmjGbAZA?usp=sharing)  
+For this step, we are going to be drawing GIFs to our screen.  
+Please download the Common_types.h file and include it in 
+your folder when doing this step.
+
+To display a GIF, we will be drawing out different frames of 
+a static image every time you loop the screen. You will first 
+need to convert your image into a C-array, a format the 
+TFT_eSPI library can understand. See the Google Colab file at 
+(https://colab.research.google.com/drive/1M2ghhb-EPsKnnBAMrDEIjULArmjGbAZA?usp=sharing)
+
+The displayText() function should be similar to what you 
+completed in step 1. A good way to think about the drawBitmapGif() 
+function is to imagine reading the amount of pixels for one 
+frame of your GIF, drawing it, then reading the amount of pixels 
+for the next frame of your GIF.
+
+Your Common_types.h file should have a struct containing 
+information about your GIF. For instance, if your GIF was 
+named icon, icon->width would tell me the width of your 
+icon. Check the Common_types.h file for more information.
 
 Success criteria for this step is being able to display a 
-gif on the screen
+gif on the screen. Good luck!
 
-uint32_t offset = 0;
-for (uint16_t frameId = 0; frameId < frameCount; frameId++)
-{
-offset = frameId * w * h;
-tft.pushImage(x, y, w, h, bitmap + offset);
-delay(500); // Delay between frames
-}

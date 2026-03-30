@@ -1,98 +1,111 @@
 #include <ESP32Encoder.h>
-#include <TFT_eSPI.h> // Drawing text, images, and shapes on the TFT display
-#include <SPI.h>      // Serial Data Protocol
+#include <TFT_eSPI.h> 
+#include <SPI.h>      
 
 TFT_eSPI tft = TFT_eSPI();
+ESP32Encoder encoder;
 
-// --- Control Parameters ---
+// --- Hardware Pins ---
 #define ROTARY_PINA 12
 #define ROTARY_PINB 14
-#define ROTARY_PINSW 13
-
-#define BUTTON 33
-
-// --- Display Parameters ---
-#define SCREEN_WIDTH 480
-#define SCREEN_HEIGHT 320
+#define BUTTON 13
 #define TFT_LED 25
 
-// --- Button Init ---
-ESP32Encoder encoder;
-volatile int32_t encoderCount = 0;
-volatile bool encoderChanged = false;
-volatile bool currentButtonState = false;
-volatile bool buttonPressed = false;
-char *encoderMsg;
-char *buttonMsg;
+// --- Global Variables for Attendees ---
+long currentCount = 0;
+long lastCount = 0;
+bool isSystemOn = false;
 
-void IRAM_ATTR encoderISR() {
-    encoderCount = encoder.getCount();
-    encoderChanged = true;
+// --- Debounce Variables ---
+int lastSteadyState = HIGH;
+int lastFlickerableState = HIGH;
+unsigned long lastDebounceTime = 0;
+
+
+// --- Display Function ---
+void displayText(String text, uint16_t color = TFT_WHITE, int textSize = 4) {
+  tft.fillScreen(TFT_BLACK);              
+  tft.setTextColor(color, TFT_BLACK); 
+  tft.drawString(text, 50, 100, textSize);   
 }
 
-void IRAM_ATTR buttonISR() {
-    currentButtonState = !(currentButtonState);
-    buttonPressed = true;
-}
+void setup() {
+  Serial.begin(115200);
 
-void displayText(const char *text, int textSize = 4, int x = 0, int y = 0)
-{
-  tft.fillScreen(TFT_BLACK);              // clear screen with black background
-  tft.setTextColor(TFT_WHITE, TFT_BLACK); // set text color
-  tft.drawString(text, x, y, textSize);   // display text
-}
-
-void setup()
-{
+  // Screen Setup
   pinMode(TFT_LED, OUTPUT);
   digitalWrite(TFT_LED, HIGH);
-  //  Screen Setup
   tft.init();
-  tft.setRotation(1); // Landscape
-  Serial.begin(115200);
+  tft.setRotation(1); 
   tft.fillScreen(TFT_BLACK);
-
-  Serial.begin(115200);
   
-  pinMode(BUTTON, INPUT);
-  
-  // Enable the weak pull up resistors for encoder
+  // Hardware Setup (Fixed for stability)
+  pinMode(BUTTON, INPUT_PULLUP);
   ESP32Encoder::useInternalWeakPullResistors = puType::up;
-
-  // Attach encoder pins
   encoder.attachHalfQuad(ROTARY_PINA, ROTARY_PINB);
-  
-  // Set starting count value
   encoder.setCount(0);
-  encoderCount = 0;
-  
-  attachInterrupt(digitalPinToInterrupt(ROTARY_PINA), encoderISR, CHANGE);
-  attachInterrupt(digitalPinToInterrupt(ROTARY_PINB), encoderISR, CHANGE);
-  
-  attachInterrupt(digitalPinToInterrupt(BUTTON), buttonISR, CHANGE);
-  currentButtonState = bool(digitalRead(BUTTON));
-
-  Serial.println("Encoder Start = " + String(encoderCount));
-  displayText("Screen Start!", 4, 100, 100);
-
+  displayText("Sandbox Ready!", TFT_GREEN);
   delay(2000);
+  tft.fillScreen(TFT_BLACK);
 }
 
 void loop() {
-    if (encoderChanged) {
-      Serial.println("Encoder count = " + String(encoderCount));
-      tft.fillScreen(TFT_BLACK);
-      displayText(("Encoder count = " + String(encoderCount)).c_str(), 4, 100, 100);
-      encoderChanged = false; // Reset flag
-    }
+  // Read current states from hardware
+  currentCount = encoder.getCount();
+  int buttonReading = digitalRead(BUTTON);
+
+  // --- ATTENDEE WORKSPACE STARTS HERE ---
+  // TASK 1: Detect Encoder Rotation
+  // Hint: Compare 'currentCount' with 'lastCount'
+
+    // 1a. Print the new count to the Serial Monitor
     
-    if (buttonPressed) {
-      Serial.println(currentButtonState ? "Button on" : "Button off");
-      tft.fillScreen(TFT_BLACK);
-      if (currentButtonState) {buttonMsg = "Button ON";}
-      else {buttonMsg = "Button OFF";}
-      displayText(buttonMsg, 4, 100, 100);
-      buttonPressed = false;
+    // 1b. Update the screen using displayText()
+    // Example: displayText("Count: " + String(currentCount));
+    
+    // 1c. (Bonus) If the count is greater than 10, make the text to any color using TFT!
+    
+  if(currentCount != lastCount){
+    Serial.print("count = " + String(currentCount));
+    if(currentCount>10){
+      displayText("count = " + String(currentCount), TFT_BLUE);
     }
-    delay(10);
+    else{
+      displayText("count = " + String(currentCount));
+    }
+    lastCount = currentCount; // Remember the new count
+  }
+
+  // TASK 2: Button Press Logic (Debounced in background)
+  // We handle the bouncing for you. Just check the logic!
+  if (buttonReading != lastFlickerableState) {
+    lastDebounceTime = millis();
+    lastFlickerableState = buttonReading;
+  }
+
+  if ((millis() - lastDebounceTime) > 50) {
+    if (buttonReading != lastSteadyState) {
+      lastSteadyState = buttonReading;
+
+      // The button is pressed down!
+      if (lastSteadyState == LOW) {
+        isSystemOn = !isSystemOn;
+        if(isSystemOn){
+          displayText("System: On",TFT_GREEN);
+        }
+        else{
+          displayText("System: Off",TFT_RED);
+        }
+        // 2a. Toggle the 'isSystemOn' boolean variable
+        
+        // 2b. If the system is ON, display "System: ON" in GREEN
+        //     If the system is OFF, display "System: OFF" in RED
+        
+        
+        Serial.println("Button Clicked!");
+      }
+    }
+  }
+        
+  delay(10);
 }
